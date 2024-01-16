@@ -13,3 +13,11 @@ exports.addUser = async(req, res) => {
     }
     res.render('user/add', locals);
 }
+
+exports.postUser = async(req, res) => {
+    const locals = {
+        title: 'New User added',
+        description: 'NodeJS User Management System'
+    }
+    res.render('user/add', locals);
+}
