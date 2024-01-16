@@ -16,7 +16,7 @@ app.use(expressLayout);
 app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
 
-app.use('/', require('./routes/customer'))
+app.use('/', require('./routes/user'))
 
 app.get('*', (req, res) => {
     res.status(404).render('error');
