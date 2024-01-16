@@ -1,8 +1,11 @@
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
+const connectDB = require('./config/db');
 const { PORT } = require('./config/serverConfig');
 
 const app = express();
+
+connectDB();
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
