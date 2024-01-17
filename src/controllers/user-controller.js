@@ -7,7 +7,12 @@ exports.homepage = async(req, res) => {
         title: 'NodeJS',
         description: 'NodeJS User Management System'
     }
-    res.render('index', {locals, messages});
+    try {
+        const users = await User.find({}).limit(20);
+        res.render('index', {locals, messages, users});
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 exports.addUser = async(req, res) => {
