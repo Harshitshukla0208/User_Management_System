@@ -1,19 +1,41 @@
 const User = require('../models/user-model');
 const mongoose = require('mongoose');
 
+
 exports.homepage = async(req, res) => {
     const messages = await req.flash('info');
     const locals = {
         title: 'NodeJS',
         description: 'NodeJS User Management System'
     }
+    // pagination
+    let perPage = 12;
+    let page = req.query.page || 1;
+
     try {
-        const users = await User.find({}).limit(20);
-        res.render('index', {locals, messages, users});
+        const users = await User.aggregate([{$sort: {createdAt: 1}}]).skip(perPage*page-perPage).limit(perPage).exec();
+        const count = await User.countDocuments({});
+        res.render('index', {locals, users, current: page, pages: Math.ceil(count/perPage), messages})
     } catch (error) {
         console.log(error);
     }
 }
+
+//CODE BEFORE ADDING PAGINATION
+
+// exports.homepage = async(req, res) => {
+//     const messages = await req.flash('info');
+//     const locals = {
+//         title: 'NodeJS',
+//         description: 'NodeJS User Management System'
+//     }
+//     try {
+//         const users = await User.find({}).limit(20);
+//         res.render('index', {locals, messages, users});
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 exports.addUser = async(req, res) => {
     const locals = {
