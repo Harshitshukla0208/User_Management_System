@@ -62,3 +62,21 @@ exports.postUser = async(req, res) => {
         console.log(error);
     } 
 }
+
+//view user
+
+exports.view = async(req,res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id});
+        const locals = {
+            title: 'view user data',
+            description: 'viewing user details'
+        };
+        res.render('user/view-user', {
+            locals,
+            user
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
