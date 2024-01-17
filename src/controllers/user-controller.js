@@ -66,7 +66,7 @@ exports.postUser = async(req, res) => {
 //view user
 
 exports.view = async(req,res) => {
-    try {
+    try{
         const user = await User.findOne({_id: req.params.id});
         const locals = {
             title: 'view user data',
@@ -80,3 +80,75 @@ exports.view = async(req,res) => {
         console.log(error);
     }
 }
+
+// updating user data
+exports.edit = async (req, res) => {
+    try{
+        const user = await User.findOne({ _id: req.params.id });
+    
+        const locals = {
+            title: "Edit User Data",
+            description: "Free NodeJs User Management System",
+        };
+
+        res.render("user/edit", {
+            locals,
+            user,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+exports.editPost = async (req, res) => {
+    try{
+        await User.findByIdAndUpdate(req.params.id, {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            tel: req.body.tel,
+            email: req.body.email,
+            details: req.body.details,
+            updatedAt: Date.now(),
+        });
+        await res.redirect(`/edit/${req.params.id}`);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+//delete user
+exports.deleteUser = async (req, res) => {
+    try {
+        await User.deleteOne({ _id: req.params.id });
+        res.redirect("/");
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+//search user
+exports.searchUser = async (req, res) => {
+    const locals = {
+        title: "Search User Data",
+        description: "Free NodeJs User Management System",
+    };
+
+    try {
+        let searchTerm = req.body.searchTerm;
+        const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
+        const users = await User.find({
+            $or: [
+                { firstName: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+                { lastName: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+            ],
+        });
+
+        res.render("search", {
+            users,
+            locals,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
