@@ -11,6 +11,9 @@ This is a simple User Management System built using Node.js, MongoDB, EJS, and B
 - **User Profile:** View and update user profiles, including username and password.
 
 - **User Listing:** Display a list of all users in the system with options to edit or delete each user.
+  
+- ![image](https://github.com/Harshitshukla0208/User_Management_System/assets/120409631/cdb1dc14-59b1-4e1f-a0c7-54865ed583bb)
+
 
 ## Technologies Used
 
